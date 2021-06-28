@@ -1,8 +1,13 @@
 [tool.poetry]
-name = "nlpaug_jp"
+name = "nlpaug-jp"
 version = "0.1.0"
 description = "Data Augmentation for Japanese Text"
 authors = ["chck <shimekiri.today@gmail.com>"]
+
+[tool.taskipy.tasks]
+lint = { cmd = "pysen run lint", help = "execute linter" }
+fmt = { cmd = "pysen run format", help = "format code" }
+test = { cmd = "task lint && task format && pytest", help = "run all test" }
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -13,6 +18,7 @@ pysen = {extras = ["lint"], version = "^0.9.1"}
 absl-py = ">=0.9,<0.13"
 pytest = "^6.2.4"
 pytest-xdist = "^2.3.0"
+taskipy = "^1.8.1"
 
 [tool.pysen]
 version = "0.9"
