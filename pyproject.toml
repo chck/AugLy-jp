@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "nlpaug-japanese"
+version = "0.1.0"
+description = "Data Augmentation for Japanese Text"
+authors = ["chck <shimekiri.today@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.21.0"
+
+[tool.poetry.dev-dependencies]
+pysen = {extras = ["lint"], version = "^0.9.1"}
+absl-py = ">=0.9,<0.13"
+pytest = "^6.2.4"
+pytest-xdist = "^2.3.0"
+
+[tool.pysen]
+version = "0.9"
+
+[tool.pysen.lint]
+enable_black = true
+enable_flake8 = true
+enable_isort = true
+enable_mypy = true
+line_length = 120
+py_version = "py38"
+mypy_preset = "strict"
+[[tool.pysen.lint.mypy_targets]]
+  paths = ["src/nlpaug_jp"]
+
+[tool.pysen.lint.source]
+  includes = ["src"]
+  exclude_globs = ["**/*_test.py"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
