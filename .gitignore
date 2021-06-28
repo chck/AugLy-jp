@@ -141,3 +141,6 @@ cython_debug/
 
 # pyenv
 .python-version
+
+# PyCharm
+.idea/
