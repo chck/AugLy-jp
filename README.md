@@ -1,5 +1,5 @@
 # AugLy-jp
-Data Augmentation for Japanese Text
+Data Augmentation for Japanese Text on AugLy
 
 ## Prerequisites
 | Software                   | Install (Mac)              |
@@ -13,7 +13,7 @@ Data Augmentation for Japanese Text
 ## Get Started
 ### Installation
 ```bash
-pip install AugLy-jp
+pip install augly_jp
 ```
 
 Or clone this repository:
@@ -34,6 +34,6 @@ poetry run task fmt
 ```
 
 ## Inspired
+- https://github.com/facebookresearch/AugLy
 - https://github.com/makcedward/nlpaug
 - https://github.com/QData/TextAttack
-- https://github.com/facebookresearch/AugLy
