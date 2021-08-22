@@ -32,3 +32,8 @@ poetry run task test
 poetry run task lint
 poetry run task fmt
 ```
+
+## Inspired
+- https://github.com/makcedward/nlpaug
+- https://github.com/QData/TextAttack
+- https://github.com/facebookresearch/AugLy
