@@ -1,24 +1,24 @@
-# nlpaug-japanese
+# AugLy-jp
 Data Augmentation for Japanese Text
 
 ## Prerequisites
 | Software                   | Install (Mac)              |
 |----------------------------|----------------------------|
-| [Python 3.8.10][python]    | `pyenv install 3.8.10`     |
+| [Python 3.8.11][python]    | `pyenv install 3.8.11`     |
 | [Poetry 1.1.*][poetry]     | `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \| python`|
 
-[python]: https://www.python.org/downloads/release/python-3810/
+[python]: https://www.python.org/downloads/release/python-3811/
 [poetry]: https://python-poetry.org/
 
 ## Get Started
 ### Installation
 ```bash
-pip install nlpaug-jp
+pip install AugLy-jp
 ```
 
 Or clone this repository:
 ```bash
-git clone https://github.com/chck/nlpaug-japanese.git
+git clone https://github.com/chck/AugLy-jp.git
 poetry install
 ```
 
