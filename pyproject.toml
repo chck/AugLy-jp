@@ -7,12 +7,16 @@ authors = ["chck <shimekiri.today@gmail.com>"]
 [tool.taskipy.tasks]
 lint = { cmd = "pysen run lint", help = "execute linter" }
 fmt = { cmd = "pysen run format", help = "format code" }
-test = { cmd = "task lint && task format && pytest", help = "run all test" }
+#test = { cmd = "task lint && task fmt && pytest", help = "run all test" }
+test = { cmd = "task fmt && pytest", help = "run all test" }
 
 [tool.poetry.dependencies]
 python = "^3.8"
 numpy = "^1.21.0"
 augly = "^0.1.6"
+chikkarpy = "^0.1.0"
+ginza = "^4.0.6"
+python-magic-bin = "^0.4.14"
 
 [tool.poetry.dev-dependencies]
 pysen = {extras = ["lint"], version = "^0.9.1"}
@@ -20,6 +24,7 @@ absl-py = ">=0.9,<0.13"
 pytest = "^6.2.4"
 pytest-xdist = "^2.3.0"
 taskipy = "^1.8.1"
+jupyterlab = "^3.1.7"
 
 [tool.pysen]
 version = "0.9"
