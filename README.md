@@ -22,18 +22,25 @@ git clone https://github.com/chck/AugLy-jp.git
 poetry install
 ```
 
-### Test (includes lint and format)
+### Test with reformat
 ```bash
 poetry run task test
 ```
 
-### Lint, Format only
+### Reformat
+```bash
+poetry run task fmt
+```
+
+### Lint
 ```bash
 poetry run task lint
-poetry run task fmt
 ```
 
 ## Inspired
 - https://github.com/facebookresearch/AugLy
 - https://github.com/makcedward/nlpaug
 - https://github.com/QData/TextAttack
+
+## References
+[1] Masatoshi Suzuki, Koji Matsuda, Satoshi Sekine, Naoaki Okazaki and Kentaro Inui. A Joint Neural Model for Fine-Grained Named Entity Classification of Wikipedia Articles. IEICE Transactions on Information and Systems, Special Section on Semantic Web and Linked Data, Vol. E101-D, No.1, pp.73-81, 2018.

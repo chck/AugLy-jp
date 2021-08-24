@@ -1,1 +1,1 @@
-from augly_jp.text.functional.word import replace_synonym_words
+from augly_jp.text.functional.word import replace_synonym_words, replace_wordembedding_words

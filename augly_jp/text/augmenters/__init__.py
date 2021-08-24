@@ -1,1 +1,1 @@
-from augly_jp.text.augmenters.word import SynonymAugmenter
+from augly_jp.text.augmenters.word import SynonymAugmenter, WordEmbeddingAugmenter
