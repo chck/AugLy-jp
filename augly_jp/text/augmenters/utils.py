@@ -23,7 +23,7 @@ POS = {
     "ADV",  # adverb
     "AUX",  # auxiliary verb
     "CONJ",  # coordinating conjunction
-    "CCONJ",  # TODO: i dont know why but this pos tag exists.
+    "CCONJ",  # NOTE: this may duplicate CONJ, but i dont know why but this pos tag exists.
     "DET",  # determiner
     "INTJ",  # interjection
     "NOUN",  # noun
