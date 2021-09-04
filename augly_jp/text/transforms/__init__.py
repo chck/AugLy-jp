@@ -1,1 +1,1 @@
-from augly_jp.text.transforms.word import ReplaceSynonymWords, ReplaceWordEmbeddingWords
+from augly_jp.text.transforms.word import ReplaceFillMaskWords, ReplaceSynonymWords, ReplaceWordEmbeddingWords

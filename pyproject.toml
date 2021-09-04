@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "augly_jp"
-version = "2021.8.25"
+version = "2021.9.5"
 description = "Data Augmentation for Japanese Text"
 authors = ["chck <shimekiri.today@gmail.com>"]
 
@@ -21,6 +21,8 @@ tqdm = "^4.62.2"
 python-Levenshtein = "^0.12.2"
 ginza = "^5.0.1"
 ja-ginza-electra = "^5.0.0"
+transformers = "<4.10.0"
+fugashi = {extras = ["unidic-lite"], version = "^1.1.1"}
 
 [tool.poetry.dev-dependencies]
 pysen = {extras = ["lint"], version = "^0.9.1"}
@@ -29,6 +31,7 @@ pytest = "^6.2.4"
 pytest-xdist = "^2.3.0"
 taskipy = "^1.8.1"
 jupyterlab = "^3.1.7"
+ipywidgets = "^7.6.4"
 
 [tool.pysen]
 version = "0.9"

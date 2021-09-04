@@ -13,13 +13,18 @@ def get_data() -> Dict[str, Any]:
 
 
 def test_replace_synonym_words(get_data):
-    augmented_synonym_word = txtaugs.replace_synonym_words(get_data["text"], aug_p=0.8)
-    assert augmented_synonym_word == "あらゆる現実をすべて自身のほうへねじ曲げたのだ"
+    augmented = txtaugs.replace_synonym_words(get_data["text"], aug_p=0.8)
+    assert augmented == "あらゆる現実をすべて自身のほうへねじ曲げたのだ"
 
 
 def test_replace_wordembedding_words(get_data):
-    augmented_we_word = txtaugs.replace_wordembedding_words(get_data["text"], aug_p=0.8)
-    assert augmented_we_word == "あらゆる現実をすべて関心のほうへねじ曲げたのだ"
+    augmented = txtaugs.replace_wordembedding_words(get_data["text"], aug_p=0.8)
+    assert augmented == "あらゆる現実をすべて関心のほうへねじ曲げたのだ"
+
+
+def test_replace_fillmask_words(get_data):
+    augmented = txtaugs.replace_fillmask_words(get_data["text"], aug_p=0.8)
+    assert augmented == "つまり現実を、未来な未来まで変えたいんだ"
 
 
 if __name__ == '__main__':

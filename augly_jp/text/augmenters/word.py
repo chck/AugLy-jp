@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import List
 
 from augly.text.augmenters.utils import get_aug_idxes
-from augly_jp.text.augmenters.utils import Texts, detokenize, get_model, tokenize
+from augly_jp.text.augmenters.utils import Texts, detokenize, get_model, tokenize, tokenize_unidic
 from chikkarpy import Chikkar
 from chikkarpy.dictionarylib import Dictionary
 
@@ -15,6 +15,7 @@ with warnings.catch_warnings():
 
 from nlpaug.augmenter.word import Augmenter
 from nlpaug.util import Action, Method
+from transformers import pipeline
 
 
 class SynonymAugmenter(Augmenter):
@@ -139,3 +140,48 @@ class WordEmbeddingAugmenter(Augmenter):
                 continue
             results.append(self.apply_wordembedding(row["token"]))
         return detokenize(results)
+
+
+class FillMaskAugmenter(Augmenter):
+    def __init__(
+        self, aug_min: int, aug_max: int, aug_p: float, model: str = "cl-tohoku/bert-base-japanese-v2"
+    ) -> None:
+        super().__init__(
+            name="FillMaskAugmenter",
+            action=Action.SUBSTITUTE,
+            method=Method.WORD,
+            aug_min=aug_min,
+            aug_max=aug_max,
+            aug_p=aug_p,
+        )
+        """you can choose Japanese fill-mask model from:
+        https://huggingface.co/models?pipeline_tag=fill-mask&sort=downloads&search=japanese
+        """
+        self.model = pipeline(task="fill-mask", model=model, top_k=5)
+        self.mask_token = self.model.tokenizer.mask_token
+
+    @classmethod
+    def clean(cls, data: Texts) -> Texts:
+        if isinstance(data, list):
+            return [d.strip() for d in data]
+
+        return data.strip()
+
+    @classmethod
+    def is_duplicate(cls, dataset: List[str], data: Texts) -> bool:
+        return data in dataset
+
+    def apply_fill_mask(self, tokens: List[str]) -> str:
+        assert self.mask_token in tokens
+        candidates = self.model(detokenize(tokens))
+        return random.choice(candidates)["sequence"].split(" ")
+
+    def substitute(self, data: Texts) -> str:
+        # Default model (cl-tohoku) expect unidic tokenizer
+        tokens = tokenize_unidic(data)
+        aug_word_cnt = self._generate_aug_cnt(len(tokens), self.aug_min, self.aug_max, self.aug_p)
+        aug_word_idxes = set(get_aug_idxes(self, tokens, list(range(len(tokens))), aug_word_cnt, Method.WORD))
+        for idx in aug_word_idxes:
+            tokens[idx] = self.mask_token
+            tokens = self.apply_fill_mask(tokens)
+        return detokenize(tokens)

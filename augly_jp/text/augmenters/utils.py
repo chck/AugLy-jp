@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Union
 from urllib.request import urlretrieve
 
 import spacy
+from fugashi import Tagger
 from spacy.tokens import Doc
 from tqdm.auto import tqdm
 
@@ -14,6 +15,7 @@ log = logging.getLogger(__name__)
 
 
 nlp = spacy.load("ja_ginza_electra")
+tagger = Tagger()
 Texts = Union[str, List[str]]
 POS = {
     # ref: https://universaldependencies.org/docs/u/pos/
@@ -42,12 +44,21 @@ POS = {
 def tokenize(text: str, lemmatize: bool = False, with_pos: bool = False) -> List[Union[str, Dict[str, Any]]]:
     doc: Doc = nlp(text)
     tokens, pos = [], []
-    for sent in doc.sents:
-        for token in sent:
+    for sentences in doc.sents:
+        for token in sentences:
             if token.pos_ in POS:
                 tokens.append(token.text if not lemmatize else token.lemma_)
                 pos.append(token.pos_)
     return tokens if not with_pos else [dict(token=token, pos=_pos) for token, _pos in zip(tokens, pos)]
+
+
+def tokenize_unidic(text: str, lemmatize: bool = False) -> List[str]:
+    """TODO: merge one class all in tokenizer such as ginza and fugashi"""
+    tokens = tagger(text)
+    results = []
+    for token in tokens:
+        results.append(token.feature.orth if not lemmatize else token.feature.lemma)
+    return results
 
 
 def detokenize(tokens: List[str]) -> str:
