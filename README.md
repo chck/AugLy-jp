@@ -1,6 +1,15 @@
 # AugLy-jp
 Data Augmentation for Japanese Text on AugLy
 
+## Augmenter
+`base_text = "あらゆる現実をすべて自分のほうへねじ曲げたのだ"`
+
+Augmenter | Augmented | Description
+:---:|:---:|:---:
+SynonymAugmenter|あらゆる現実をすべて自身のほうへねじ曲げたのだ|Substitute similar word according to [Sudachi synonym](https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md)
+WordEmbsAugmenter|あらゆる現実をすべて関心のほうへねじ曲げたのだ|Leverage word2vec, GloVe or fasttext embeddings to apply augmentation
+FillMaskAugmenter|つまり現実を、未来な未来まで変えたいんだ|Using masked language model to generate text
+
 ## Prerequisites
 | Software                   | Install (Mac)              |
 |----------------------------|----------------------------|
