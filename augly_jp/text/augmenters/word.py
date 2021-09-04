@@ -90,6 +90,9 @@ class WordEmbeddingAugmenter(Augmenter):
             else:
                 raise FileNotFoundError(f"{word_vector_path} do NOT have the binary of word vector.")
         self.model = KeyedVectors.load(word_vector_path, mmap="r")
+        # no more training, only querying mode. use (much) less RAM.
+        # ref. https://tedboy.github.io/nlps/_modules/gensim/models/word2vec.html#Word2Vec.most_similar
+        self.model.init_sims(replace=True)
 
     @classmethod
     def clean(cls, data: Texts) -> Texts:
