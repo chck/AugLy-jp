@@ -1,1 +1,1 @@
-from augly_jp.text.functional.word import replace_fillmask_words, replace_synonym_words, replace_wordembedding_words
+from augly_jp.text.functional.word import replace_fillmask_words, replace_synonym_words, replace_wordembs_words

@@ -71,10 +71,10 @@ class SynonymAugmenter(Augmenter):
         return detokenize(results)
 
 
-class WordEmbeddingAugmenter(Augmenter):
+class WordEmbsAugmenter(Augmenter):
     def __init__(self, aug_min: int, aug_max: int, aug_p: float):
         super().__init__(
-            name="WordEmbeddingsAugmenter",
+            name="WordEmbsAugmenter",
             action=Action.SUBSTITUTE,
             method=Method.WORD,
             aug_min=aug_min,
@@ -106,7 +106,7 @@ class WordEmbeddingAugmenter(Augmenter):
     def is_duplicate(cls, dataset: List[str], data: Texts) -> bool:
         return data in dataset
 
-    def apply_wordembedding(self, word: str, similarity_min: float = 0.0) -> str:
+    def apply_wordembs(self, word: str, similarity_min: float = 0.0) -> str:
         assert 0.0 <= similarity_min <= 1.0
         try:
             similar_words = [
@@ -138,7 +138,7 @@ class WordEmbeddingAugmenter(Augmenter):
             if row["aug_word_idx"] not in aug_word_idxes:
                 results.append(row["token"])
                 continue
-            results.append(self.apply_wordembedding(row["token"]))
+            results.append(self.apply_wordembs(row["token"]))
         return detokenize(results)
 
 

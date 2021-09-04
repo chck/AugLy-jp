@@ -23,7 +23,7 @@ def replace_synonym_words(
     return aug_texts
 
 
-def replace_wordembedding_words(
+def replace_wordembs_words(
     texts: Texts,
     aug_p: float = 0.3,
     aug_min: int = 1,
@@ -33,12 +33,10 @@ def replace_wordembedding_words(
 ) -> List[str]:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
-    we_aug = a.WordEmbeddingAugmenter(aug_min, aug_max, aug_p)
+    we_aug = a.WordEmbsAugmenter(aug_min, aug_max, aug_p)
     aug_texts = we_aug.augment(texts, n)
 
-    txtutils.get_metadata(
-        metadata=metadata, function_name="replace_wordembedding_words", aug_texts=aug_texts, **func_kwargs
-    )
+    txtutils.get_metadata(metadata=metadata, function_name="replace_wordembs_words", aug_texts=aug_texts, **func_kwargs)
 
     return aug_texts
 
