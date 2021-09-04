@@ -13,7 +13,7 @@ from tqdm.auto import tqdm
 log = logging.getLogger(__name__)
 
 
-nlp = spacy.load("ja_ginza")
+nlp = spacy.load("ja_ginza_electra")
 Texts = Union[str, List[str]]
 POS = {
     # ref: https://universaldependencies.org/docs/u/pos/
