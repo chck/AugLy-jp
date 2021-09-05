@@ -3,6 +3,9 @@ name = "augly_jp"
 version = "2021.9.5"
 description = "Data Augmentation for Japanese Text"
 authors = ["chck <shimekiri.today@gmail.com>"]
+repository = "https://github.com/chck/AugLy-jp"
+readme = "README.md"
+license = "MIT"
 
 [tool.taskipy.tasks]
 lint = { cmd = "pysen run lint", help = "execute linter" }
