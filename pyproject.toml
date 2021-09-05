@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "augly_jp"
-version = "2021.9.5"
+version = "2021.9.6"
 description = "Data Augmentation for Japanese Text"
 authors = ["chck <shimekiri.today@gmail.com>"]
 repository = "https://github.com/chck/AugLy-jp"
