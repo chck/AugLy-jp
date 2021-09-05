@@ -55,11 +55,12 @@ poetry run task lint
 - https://github.com/makcedward/nlpaug
 - https://github.com/QData/TextAttack
 
-## References
-[1] Masatoshi Suzuki, Koji Matsuda, Satoshi Sekine, Naoaki Okazaki and Kentaro Inui. A Joint Neural Model for Fine-Grained Named Entity Classification of Wikipedia Articles. IEICE Transactions on Information and Systems, Special Section on Semantic Web and Linked Data, Vol. E101-D, No.1, pp.73-81, 2018.
+## License
+This software includes the work that is distributed in the Apache License 2.0 [[1]][apache1-url].
 
 [pypi-image]: https://badge.fury.io/py/augly-jp.svg
 [pypi-url]: https://badge.fury.io/py/augly-jp
 [python-image]: https://img.shields.io/pypi/pyversions/augly-jp.svg
 [black-image]: https://img.shields.io/badge/code%20style-black-black
 [black-url]: https://github.com/psf/black
+[apache1-url]: https://github.com/cl-tohoku/bert-japanese/blob/v2.0/LICENSE
