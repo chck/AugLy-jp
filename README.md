@@ -15,7 +15,7 @@ WordEmbsAugmenter|あらゆる現実をすべて関心のほうへねじ曲げ�
 FillMaskAugmenter|つまり現実を、未来な未来まで変えたいんだ|Using masked language model to generate text
 
 ## Prerequisites
-| Software                   | Install (Mac)              |
+| Software                   | Install Command            |
 |----------------------------|----------------------------|
 | [Python 3.8.11][python]    | `pyenv install 3.8.11`     |
 | [Poetry 1.1.*][poetry]     | `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \| python`|
@@ -26,7 +26,7 @@ FillMaskAugmenter|つまり現実を、未来な未来まで変えたいんだ|U
 ## Get Started
 ### Installation
 ```bash
-pip install augly_jp
+pip install augly-jp
 ```
 
 Or clone this repository:
