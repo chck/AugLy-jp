@@ -1,5 +1,9 @@
 # AugLy-jp
-Data Augmentation for Japanese Text on AugLy
+> Data Augmentation for **Japanese Text** on AugLy
+
+[![PyPI Version][pypi-image]][pypi-url]
+[![Python Version][python-image]][python-image]
+[![Python Style Guide][black-image]][black-url]
 
 ## Augmenter
 `base_text = "あらゆる現実をすべて自分のほうへねじ曲げたのだ"`
@@ -53,3 +57,9 @@ poetry run task lint
 
 ## References
 [1] Masatoshi Suzuki, Koji Matsuda, Satoshi Sekine, Naoaki Okazaki and Kentaro Inui. A Joint Neural Model for Fine-Grained Named Entity Classification of Wikipedia Articles. IEICE Transactions on Information and Systems, Special Section on Semantic Web and Linked Data, Vol. E101-D, No.1, pp.73-81, 2018.
+
+[pypi-image]: https://badge.fury.io/py/augly-jp.svg
+[pypi-url]: https://badge.fury.io/py/augly-jp
+[python-image]: https://img.shields.io/pypi/pyversions/augly-jp.svg
+[black-image]: https://img.shields.io/badge/code%20style-black-black
+[black-url]: https://github.com/psf/black
