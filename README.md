@@ -3,6 +3,8 @@
 
 [![PyPI Version][pypi-image]][pypi-url]
 [![Python Version][python-image]][python-image]
+[![Python Test][test-image]][test-url]
+[![Test Coverage][coverage-image]][coverage-url]
 [![Python Style Guide][black-image]][black-url]
 
 ## Augmenter
@@ -61,6 +63,10 @@ This software includes the work that is distributed in the Apache License 2.0 [[
 [pypi-image]: https://badge.fury.io/py/augly-jp.svg
 [pypi-url]: https://badge.fury.io/py/augly-jp
 [python-image]: https://img.shields.io/pypi/pyversions/augly-jp.svg
+[test-image]: https://github.com/chck/AugLy-jp/workflows/Test/badge.svg
+[test-url]: https://github.com/chck/Augly-jp/actions?query=workflow%3ATest
+[coverage-image]: https://img.shields.io/codecov/c/github/chck/AugLy-jp?color=%2334D058
+[coverage-url]: https://codecov.io/gh/chck/AugLy-jp
 [black-image]: https://img.shields.io/badge/code%20style-black-black
 [black-url]: https://github.com/psf/black
 [apache1-url]: https://github.com/cl-tohoku/bert-japanese/blob/v2.0/LICENSE
