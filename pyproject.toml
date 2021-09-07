@@ -60,8 +60,9 @@ mypy_preset = "strict"
 [tool.pytest.ini_options]
 addopts = """
 -rx \
---cov-report term-missing \
+--cov-report term-missing:skip-covered \
 --cov augly_jp \
+--cov tests \
 -n auto"""
 
 [build-system]

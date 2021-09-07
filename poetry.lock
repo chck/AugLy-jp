@@ -405,7 +405,7 @@ test-win = ["pytest", "mock", "cython", "testfixtures", "Morfessor (>=2.0.2a4)",
 
 [[package]]
 name = "ginza"
-version = "5.0.1"
+version = "5.0.2"
 description = "GiNZA, An Open Source Japanese NLP Library, based on Universal Dependencies"
 category = "main"
 optional = false
@@ -772,7 +772,7 @@ pygments = ">=2.4.1,<3"
 
 [[package]]
 name = "jupyterlab-server"
-version = "2.7.2"
+version = "2.8.0"
 description = "A set of server components for JupyterLab and JupyterLab like applications ."
 category = "dev"
 optional = false
@@ -809,7 +809,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "matplotlib-inline"
-version = "0.1.2"
+version = "0.1.3"
 description = "Inline Matplotlib backend for Jupyter"
 category = "dev"
 optional = false
@@ -1728,7 +1728,7 @@ toml = ">=0.10.0,<0.11.0"
 
 [[package]]
 name = "terminado"
-version = "0.11.1"
+version = "0.12.1"
 description = "Tornado websocket backend for the Xterm.js Javascript terminal emulator library."
 category = "dev"
 optional = false
@@ -2423,7 +2423,7 @@ gensim = [
     {file = "gensim-4.1.0.tar.gz", hash = "sha256:0b09983048a97c7915ab50500bc53eeec438d26366041598709ec156db3eef1f"},
 ]
 ginza = [
-    {file = "ginza-5.0.1.tar.gz", hash = "sha256:61409fb79818e26c014b8369d1820300fc79e459bde308ec82c1a725d084c6d7"},
+    {file = "ginza-5.0.2.tar.gz", hash = "sha256:4847803e4314d87a1c0464da802229a8ed3b77725aba778a96a243016d90efec"},
 ]
 ginza-transformers = [
     {file = "ginza-transformers-0.3.1.tar.gz", hash = "sha256:7337d85d54a4abbbf8d773f5a7fc07caa6581a0a7af40050f86d2c6c8e95745e"},
@@ -2515,8 +2515,8 @@ jupyterlab-pygments = [
     {file = "jupyterlab_pygments-0.1.2.tar.gz", hash = "sha256:cfcda0873626150932f438eccf0f8bf22bfa92345b814890ab360d666b254146"},
 ]
 jupyterlab-server = [
-    {file = "jupyterlab_server-2.7.2-py3-none-any.whl", hash = "sha256:4832cb513f969087019dc913e59a430325670a69f2693733e8f1e16a1773be85"},
-    {file = "jupyterlab_server-2.7.2.tar.gz", hash = "sha256:c6c9ae5796ed60c65bccd84503cbd44b9e35b046b8265f24db3cc4d61631fc0d"},
+    {file = "jupyterlab_server-2.8.0-py3-none-any.whl", hash = "sha256:1f74b7798365495590545b05d9636b6beee00e46e93d78ceb0b02d2b7c0c264e"},
+    {file = "jupyterlab_server-2.8.0.tar.gz", hash = "sha256:2363438dd0879bee0f41632139df84822a55e3c8167b7cd3a11d0ae3509e3843"},
 ]
 jupyterlab-widgets = [
     {file = "jupyterlab_widgets-1.0.1-py3-none-any.whl", hash = "sha256:841925a349bd9a9197c5506bd5461a321b09e6659a9b179a0096b561a92898c3"},
@@ -2559,8 +2559,8 @@ markupsafe = [
     {file = "MarkupSafe-2.0.1.tar.gz", hash = "sha256:594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a"},
 ]
 matplotlib-inline = [
-    {file = "matplotlib-inline-0.1.2.tar.gz", hash = "sha256:f41d5ff73c9f5385775d5c0bc13b424535c8402fe70ea8210f93e11f3683993e"},
-    {file = "matplotlib_inline-0.1.2-py3-none-any.whl", hash = "sha256:5cf1176f554abb4fa98cb362aa2b55c500147e4bdbb07e3fda359143e1da0811"},
+    {file = "matplotlib-inline-0.1.3.tar.gz", hash = "sha256:a04bfba22e0d1395479f866853ec1ee28eea1485c1d69a6faf00dc3e24ff34ee"},
+    {file = "matplotlib_inline-0.1.3-py3-none-any.whl", hash = "sha256:aed605ba3b72462d64d475a21a9296f400a19c4f74a31b59103d2a99ffd5aa5c"},
 ]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
@@ -3209,8 +3209,8 @@ taskipy = [
     {file = "taskipy-1.8.1.tar.gz", hash = "sha256:7a2404125817e45d80e13fa663cae35da6e8ba590230094e815633653e25f98f"},
 ]
 terminado = [
-    {file = "terminado-0.11.1-py3-none-any.whl", hash = "sha256:9e0457334863be3e6060c487ad60e0995fa1df54f109c67b24ff49a4f2f34df5"},
-    {file = "terminado-0.11.1.tar.gz", hash = "sha256:962b402edbb480718054dc37027bada293972ecadfb587b89f01e2b8660a2132"},
+    {file = "terminado-0.12.1-py3-none-any.whl", hash = "sha256:09fdde344324a1c9c6e610ee4ca165c4bb7f5bbf982fceeeb38998a988ef8452"},
+    {file = "terminado-0.12.1.tar.gz", hash = "sha256:b20fd93cc57c1678c799799d117874367cc07a3d2d55be95205b1a88fa08393f"},
 ]
 testpath = [
     {file = "testpath-0.5.0-py3-none-any.whl", hash = "sha256:8044f9a0bab6567fc644a3593164e872543bb44225b0e24846e2c89237937589"},
