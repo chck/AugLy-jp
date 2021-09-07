@@ -5,6 +5,7 @@
 [![Python Version][python-image]][python-image]
 [![Python Test][test-image]][test-url]
 [![Test Coverage][coverage-image]][coverage-url]
+[![Code Quality][quality-image]][quality-url]
 [![Python Style Guide][black-image]][black-url]
 
 ## Augmenter
@@ -67,6 +68,8 @@ This software includes the work that is distributed in the Apache License 2.0 [[
 [test-url]: https://github.com/chck/Augly-jp/actions?query=workflow%3ATest
 [coverage-image]: https://img.shields.io/codecov/c/github/chck/AugLy-jp?color=%2334D058
 [coverage-url]: https://codecov.io/gh/chck/AugLy-jp
+[quality-image]: https://img.shields.io/lgtm/grade/python/g/chck/AugLy-jp.svg?logo=lgtm&logoWidth=18
+[quality-url]: https://lgtm.com/projects/g/chck/AugLy-jp/context:python
 [black-image]: https://img.shields.io/badge/code%20style-black-black
 [black-url]: https://github.com/psf/black
 [apache1-url]: https://github.com/cl-tohoku/bert-japanese/blob/v2.0/LICENSE
