@@ -16,8 +16,7 @@ jobs:
         python-version: [3.8, 3.9]
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -34,7 +33,9 @@ jobs:
       - name: Add path for Poetry
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Install Dependencies
-        run: poetry run pip install -U pip && poetry install --no-interaction
+        run: |
+          poetry run pip install -U pip
+          poetry install --no-interaction
       - name: Test
         run: poetry run pytest --cov=augly_jp --cov=tests --cov-report=term-missing:skip-covered --cov-report=xml tests
       - name: Upload coverage
