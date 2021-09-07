@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml') }}-test
+      - name: Install Poetry
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+      - name: Add path for Poetry
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: poetry run pip install -U pip && poetry install --no-interaction
+      - name: Test
+        run: poetry run pytest --cov=augly_jp --cov=tests --cov-report=term-missing:skip-covered --cov-report=xml tests
+      - name: Upload coverage
+        if: ${{ matrix.python-version==3.8 }}
+        uses: codecov/codecov-action@v1
