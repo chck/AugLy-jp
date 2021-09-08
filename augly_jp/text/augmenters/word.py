@@ -22,8 +22,8 @@ class SynonymAugmenter(Augmenter):
     def __init__(self, aug_min: int, aug_max: int, aug_p: float, synonym_dic_path: str = None):
         super().__init__(
             name="SynonymAugmenter",
-            action=Action.SUBSTITUTE,
             method=Method.WORD,
+            action=Action.SUBSTITUTE,
             aug_min=aug_min,
             aug_max=aug_max,
             aug_p=aug_p,

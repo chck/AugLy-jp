@@ -18,13 +18,15 @@ WordEmbsAugmenter|あらゆる現実をすべて関心のほうへねじ曲げ�
 FillMaskAugmenter|つまり現実を、未来な未来まで変えたいんだ|Using masked language model to generate text
 
 ## Prerequisites
-| Software                   | Install Command            |
+| Software                   | Install Command (Mac)      |
 |----------------------------|----------------------------|
 | [Python 3.8.11][python]    | `pyenv install 3.8.11`     |
 | [Poetry 1.1.*][poetry]     | `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \| python`|
+| [direnv][direnv]           | `brew install direnv`      |
 
 [python]: https://www.python.org/downloads/release/python-3811/
 [poetry]: https://python-poetry.org/
+[direnv]: https://direnv.net/
 
 ## Get Started
 ### Installation
@@ -52,6 +54,32 @@ poetry run task fmt
 ```bash
 poetry run task lint
 ```
+
+### Optional: `BackTranslationAugmenter` ([pay-as-you-go](https://cloud.google.com/translate/pricing))
+It is necessary to have `GOOGLE_APPLICATION_CREDENTIALS` cuz `BackTranslationAugmenter` depend on `GoogleTranslateAPI`.
+
+Get service account key, see [link](https://cloud.google.com/translate/docs/setup#python).
+
+And set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` on your local as follows:
+```
+export GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"
+```
+Or you can utilize [direnv][direnv] that load .env.
+```bash
+cp .env.example .env
+```
+
+```bash
+vi .env
+=====================
+GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"
+```
+
+```bash
+direnv allow .
+```
+
+Now ready to run `BackTranslationAugmenter`!
 
 ## Inspired
 - https://github.com/facebookresearch/AugLy

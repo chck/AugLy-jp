@@ -26,6 +26,7 @@ ja-ginza-electra = "^5.0.0"
 transformers = "<4.10.0"
 fugashi = {extras = ["unidic-lite"], version = "^1.1.1"}
 python-magic-bin = { version = "^0.4.14", markers = "sys_platform == 'win32' or sys_platform == 'darwin'" }
+google-cloud-translate = "^3.4.0"
 
 [tool.poetry.dev-dependencies]
 pysen = {extras = ["lint"], version = "^0.9.1"}
