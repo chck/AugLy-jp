@@ -154,6 +154,11 @@ class FillMaskAugmenter(Augmenter):
             aug_max=aug_max,
             aug_p=aug_p,
         )
+        from transformers import logging as tlog
+
+        # https://github.com/huggingface/transformers/issues/5421#issuecomment-698778663
+        # https://github.com/huggingface/transformers/issues/3050
+        tlog.set_verbosity_error()
         """you can choose Japanese fill-mask model from:
         https://huggingface.co/models?pipeline_tag=fill-mask&sort=downloads&search=japanese
         """
