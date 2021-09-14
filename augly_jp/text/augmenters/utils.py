@@ -9,6 +9,7 @@ from urllib.request import urlretrieve
 import spacy
 from fugashi import Tagger
 from spacy.tokens import Doc
+from tenacity import retry, retry_if_exception_message, retry_if_exception_type, stop_after_attempt
 from tqdm.auto import tqdm
 
 log = logging.getLogger(__name__)
@@ -41,6 +42,15 @@ POS = {
 }
 
 
+@retry(
+    retry=(
+        (
+            retry_if_exception_type(AttributeError) & retry_if_exception_message("EOS is not connected to BOS")
+            | retry_if_exception_type(ValueError)
+        )
+    ),
+    stop=stop_after_attempt(5),
+)
 def tokenize(text: str, lemmatize: bool = False, with_pos: bool = False) -> List[Union[str, Dict[str, Any]]]:
     doc: Doc = nlp(text)
     tokens, pos = [], []
@@ -62,7 +72,7 @@ def tokenize_unidic(text: str, lemmatize: bool = False) -> List[str]:
 
 
 def detokenize(tokens: List[str]) -> str:
-    return "".join(tokens)
+    return "".join([token for token in tokens if token])
 
 
 def get_model(fname: str = None, origin: str = None) -> str:

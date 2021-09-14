@@ -11,12 +11,13 @@ def replace_synonym_words(
     aug_min: int = 1,
     aug_max: int = 1000,
     n: int = 1,
+    num_thread: int = 1,
     metadata: Optional[List[Dict[str, Any]]] = None,
 ) -> List[str]:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
     synonym_aug = a.SynonymAugmenter(aug_min, aug_max, aug_p)
-    aug_texts = synonym_aug.augment(texts, n)
+    aug_texts = synonym_aug.augment(texts, n, num_thread)
 
     txtutils.get_metadata(metadata=metadata, function_name="replace_synonym_words", aug_texts=aug_texts, **func_kwargs)
 
@@ -29,12 +30,13 @@ def replace_wordembs_words(
     aug_min: int = 1,
     aug_max: int = 1000,
     n: int = 1,
+    num_thread: int = 1,
     metadata: Optional[List[Dict[str, Any]]] = None,
 ) -> List[str]:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
     we_aug = a.WordEmbsAugmenter(aug_min, aug_max, aug_p)
-    aug_texts = we_aug.augment(texts, n)
+    aug_texts = we_aug.augment(texts, n, num_thread)
 
     txtutils.get_metadata(metadata=metadata, function_name="replace_wordembs_words", aug_texts=aug_texts, **func_kwargs)
 
@@ -48,12 +50,13 @@ def replace_fillmask_words(
     aug_max: int = 1000,
     n: int = 1,
     model: str = "cl-tohoku/bert-base-japanese-v2",
+    num_thread: int = 1,
     metadata: Optional[List[Dict[str, Any]]] = None,
 ) -> List[str]:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
     fm_aug = a.FillMaskAugmenter(aug_min, aug_max, aug_p, model)
-    aug_texts = fm_aug.augment(texts, n)
+    aug_texts = fm_aug.augment(texts, n, num_thread)
 
     txtutils.get_metadata(metadata=metadata, function_name="replace_fillmask_words", aug_texts=aug_texts, **func_kwargs)
 
