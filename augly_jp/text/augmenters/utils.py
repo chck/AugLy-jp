@@ -14,7 +14,6 @@ from tqdm.auto import tqdm
 
 log = logging.getLogger(__name__)
 
-
 nlp = spacy.load("ja_ginza_electra")
 tagger = Tagger()
 Texts = Union[str, List[str]]

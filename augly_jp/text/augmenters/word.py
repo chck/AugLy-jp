@@ -15,7 +15,7 @@ with warnings.catch_warnings():
 
 from nlpaug.augmenter.word import Augmenter
 from nlpaug.util import Action, Method
-from transformers import pipeline
+from transformers import pipeline, set_seed
 
 
 class SynonymAugmenter(Augmenter):
@@ -144,7 +144,12 @@ class WordEmbsAugmenter(Augmenter):
 
 class FillMaskAugmenter(Augmenter):
     def __init__(
-        self, aug_min: int, aug_max: int, aug_p: float, model: str = "cl-tohoku/bert-base-japanese-v2"
+        self,
+        aug_min: int,
+        aug_max: int,
+        aug_p: float,
+        model: str = "cl-tohoku/bert-base-japanese-v2",
+        seed: int = None,
     ) -> None:
         super().__init__(
             name="FillMaskAugmenter",
@@ -162,6 +167,8 @@ class FillMaskAugmenter(Augmenter):
         """you can choose Japanese fill-mask model from:
         https://huggingface.co/models?pipeline_tag=fill-mask&sort=downloads&search=japanese
         """
+        if seed:
+            set_seed(seed)
         self.model = pipeline(task="fill-mask", model=model, top_k=5)
         self.mask_token = self.model.tokenizer.mask_token
 
