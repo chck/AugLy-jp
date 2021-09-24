@@ -189,11 +189,16 @@ class FillMaskAugmenter(Augmenter):
         return random.choice(candidates)["sequence"].split(" ")
 
     def substitute(self, data: Texts) -> str:
-        # Default model (cl-tohoku) expect unidic tokenizer
+        # Default model (cl-tohoku) expect uni-dic tokenizer
         tokens = tokenize_unidic(data)
         aug_word_cnt = self._generate_aug_cnt(len(tokens), self.aug_min, self.aug_max, self.aug_p)
         aug_word_idxes = set(get_aug_idxes(self, tokens, list(range(len(tokens))), aug_word_cnt, Method.WORD))
         for idx in aug_word_idxes:
-            tokens[idx] = self.mask_token
-            tokens = self.apply_fill_mask(tokens)
+            try:
+                tokens[idx] = self.mask_token
+                tokens = self.apply_fill_mask(tokens)
+            except IndexError as e:
+                # The higher aug_p, the more frequent IndexError occurs.
+                # Because apply_fill_mask has a risk of changing token length.
+                logging.warning(e)
         return detokenize(tokens)
