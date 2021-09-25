@@ -20,7 +20,7 @@ from transformers import pipeline, set_seed
 
 
 class SynonymAugmenter(Augmenter):
-    def __init__(self, aug_min: int, aug_max: int, aug_p: float, synonym_dic_path: str = None):
+    def __init__(self, aug_min: int, aug_max: int, aug_p: float, synonym_dic_path: str = None) -> None:
         super().__init__(
             name="SynonymAugmenter",
             action=Action.SUBSTITUTE,
@@ -165,11 +165,11 @@ class FillMaskAugmenter(Augmenter):
         # https://github.com/huggingface/transformers/issues/5421#issuecomment-698778663
         # https://github.com/huggingface/transformers/issues/3050
         tlog.set_verbosity_error()
+        if seed:
+            set_seed(seed)
         """you can choose Japanese fill-mask model from:
         https://huggingface.co/models?pipeline_tag=fill-mask&sort=downloads&search=japanese
         """
-        if seed:
-            set_seed(seed)
         self.model = pipeline(task="fill-mask", model=model, top_k=5)
         self.mask_token = self.model.tokenizer.mask_token
 
@@ -177,7 +177,6 @@ class FillMaskAugmenter(Augmenter):
     def clean(cls, data: Texts) -> Texts:
         if isinstance(data, list):
             return [d.strip() for d in data]
-
         return data.strip()
 
     @classmethod

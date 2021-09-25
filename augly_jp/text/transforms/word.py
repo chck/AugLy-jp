@@ -68,6 +68,7 @@ class ReplaceFillMaskWords(BaseTransform):
         p: float = 1.0,
         num_thread: int = 1,
         model: str = "cl-tohoku/bert-base-japanese-v2",
+        seed: int = None,
     ):
         super().__init__(p)
         self.aug_p = aug_p
@@ -76,6 +77,7 @@ class ReplaceFillMaskWords(BaseTransform):
         self.n = n
         self.num_thread = num_thread
         self.model = model
+        self.seed = seed
 
     def apply_transform(
         self,
@@ -91,4 +93,5 @@ class ReplaceFillMaskWords(BaseTransform):
             num_thread=self.num_thread,
             model=self.model,
             metadata=metadata,
+            seed=self.seed,
         )
