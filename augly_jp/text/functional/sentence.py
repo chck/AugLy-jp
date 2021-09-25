@@ -1,7 +1,6 @@
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
 
 from augly.text import utils as txtutils
-
 from augly_jp.text import augmenters as a
 from augly_jp.text.augmenters.utils import Texts
 

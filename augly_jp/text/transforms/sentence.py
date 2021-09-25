@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 
 from augly.text.transforms import BaseTransform
-
 from augly_jp.text import functional as F
 
 

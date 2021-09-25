@@ -1,9 +1,7 @@
-import torch
+from augly_jp.text.augmenters.utils import Texts, replace_punctuation
 from nlpaug.augmenter.sentence import Augmenter
 from nlpaug.util import Action, Method
-from transformers import set_seed
-
-from augly_jp.text.augmenters.utils import Texts, init_backtranslation_model, MtTransformers, detokenize, replace_punctuation
+from transformers import pipeline, set_seed
 
 
 class BackTranslationAugmenterS(Augmenter):
@@ -35,10 +33,8 @@ class BackTranslationAugmenterS(Augmenter):
         """you can choose Japanese translation model from:
         https://huggingface.co/models?pipeline_tag=translation&language=ja
         """
-
-        self.model = self.get_model(
-            from_model_name="Helsinki-NLP/opus-mt-ja-en", to_model_name="Helsinki-NLP/opus-mt-en-jap"
-        )
+        self.from_model = pipeline(task="translation", model="Helsinki-NLP/opus-mt-ja-en")
+        self.to_model = pipeline(task="translation", model="Helsinki-NLP/opus-mt-en-jap")
 
     @classmethod
     def clean(cls, data: Texts) -> Texts:
@@ -46,19 +42,11 @@ class BackTranslationAugmenterS(Augmenter):
             return [d.strip() for d in data]
         return data.strip()
 
+    def apply_back_translation(self, sentence: str) -> str:
+        translated = self.from_model(sentence)[0]["translation_text"]
+        return self.to_model(translated)[0]["translation_text"]
+
     def substitute(self, data: Texts) -> str:
         if not data:
             return data
-        return replace_punctuation(detokenize(self.model.predict(data)).replace(" ", ""))
-
-    @classmethod
-    def get_model(
-        cls,
-        from_model_name: str,
-        to_model_name: str,
-        device: torch.device = None,
-        force_reload: bool = False,
-        batch_size: int = 32,
-        max_length: int = None,
-    ) -> MtTransformers:
-        return init_backtranslation_model(from_model_name, to_model_name, device, force_reload, batch_size, max_length)
+        return replace_punctuation(self.apply_back_translation(data).replace(" ", ""))
