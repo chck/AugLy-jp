@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "augly_jp"
-version = "2021.9.26"
+version = "2021.9.30"
 description = "Data Augmentation for Japanese Text"
 authors = ["chck <shimekiri.today@gmail.com>"]
 repository = "https://github.com/chck/AugLy-jp"
@@ -15,7 +15,7 @@ test = { cmd = "task fmt && pytest -s", help = "run all test" }
 
 [tool.poetry.dependencies]
 python = "^3.7.1"
-numpy = "^1.21.0"
+numpy = ">=1.19.2,<1.20.0"
 augly = "^0.1.7"
 chikkarpy = "^0.1.0"
 gensim = "^4.0.1"
