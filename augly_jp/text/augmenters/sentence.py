@@ -1,7 +1,10 @@
-from augly_jp.text.augmenters.utils import Texts, replace_punctuation
+from typing import Optional
+
 from nlpaug.augmenter.sentence import Augmenter
 from nlpaug.util import Action, Method
 from transformers import pipeline, set_seed
+
+from augly_jp.text.augmenters.utils import Texts, replace_punctuation
 
 
 class BackTranslationAugmenterS(Augmenter):
@@ -11,7 +14,7 @@ class BackTranslationAugmenterS(Augmenter):
         aug_max: int,
         aug_p: float,
         model: str = "Helsinki-NLP",
-        seed: int = None,
+        seed: Optional[int] = None,
     ) -> None:
         super().__init__(
             name="BackTranslationAugmenterS",
@@ -47,6 +50,8 @@ class BackTranslationAugmenterS(Augmenter):
         return self.to_model(translated)[0]["translation_text"]
 
     def substitute(self, data: Texts) -> str:
+        if not isinstance(data, str):
+            raise TypeError("BackTranslationAugmenterS expects one string at a time.")
         if not data:
             return data
         return replace_punctuation(self.apply_back_translation(data).replace(" ", ""))

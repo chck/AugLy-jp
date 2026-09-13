@@ -1,8 +1,9 @@
 from typing import Any, Dict, List, Optional
 
 from augly.text import utils as txtutils
+
 from augly_jp.text import augmenters as a
-from augly_jp.text.augmenters.utils import Texts
+from augly_jp.text.augmenters.utils import Texts, normalize_augmented_texts
 
 
 def replace_synonym_words(
@@ -13,7 +14,7 @@ def replace_synonym_words(
     n: int = 1,
     num_thread: int = 1,
     metadata: Optional[List[Dict[str, Any]]] = None,
-) -> List[str]:
+) -> Texts:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
     synonym_aug = a.SynonymAugmenter(aug_min, aug_max, aug_p)
@@ -21,7 +22,7 @@ def replace_synonym_words(
 
     txtutils.get_metadata(metadata=metadata, function_name="replace_synonym_words", aug_texts=aug_texts, **func_kwargs)
 
-    return aug_texts
+    return normalize_augmented_texts(texts, aug_texts, n)
 
 
 def replace_wordembs_words(
@@ -32,7 +33,7 @@ def replace_wordembs_words(
     n: int = 1,
     num_thread: int = 1,
     metadata: Optional[List[Dict[str, Any]]] = None,
-) -> List[str]:
+) -> Texts:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
     we_aug = a.WordEmbsAugmenter(aug_min, aug_max, aug_p)
@@ -40,7 +41,7 @@ def replace_wordembs_words(
 
     txtutils.get_metadata(metadata=metadata, function_name="replace_wordembs_words", aug_texts=aug_texts, **func_kwargs)
 
-    return aug_texts
+    return normalize_augmented_texts(texts, aug_texts, n)
 
 
 def replace_fillmask_words(
@@ -52,8 +53,8 @@ def replace_fillmask_words(
     model: str = "cl-tohoku/bert-base-japanese-v2",
     num_thread: int = 1,
     metadata: Optional[List[Dict[str, Any]]] = None,
-    seed: int = None,
-) -> List[str]:
+    seed: Optional[int] = None,
+) -> Texts:
     func_kwargs = txtutils.get_func_kwargs(metadata, locals())
 
     fm_aug = a.FillMaskAugmenter(aug_min, aug_max, aug_p, model, seed)
@@ -61,4 +62,4 @@ def replace_fillmask_words(
 
     txtutils.get_metadata(metadata=metadata, function_name="replace_fillmask_words", aug_texts=aug_texts, **func_kwargs)
 
-    return aug_texts
+    return normalize_augmented_texts(texts, aug_texts, n)

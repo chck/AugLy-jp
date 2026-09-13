@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: lint
+        name: lint
+        entry: uv run --locked task lint
+        language: system
+        pass_filenames: false

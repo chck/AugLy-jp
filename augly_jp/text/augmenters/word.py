@@ -3,12 +3,20 @@ import os
 import random
 import warnings
 from pathlib import Path
-from typing import List
+from typing import Any, Dict, List, Union, cast
 
-from augly.text.augmenters.utils import get_aug_idxes
-from augly_jp.text.augmenters.utils import Texts, detokenize, get_model, tokenize, tokenize_unidic
 from chikkarpy import Chikkar
 from chikkarpy.dictionarylib import Dictionary
+
+from augly_jp.text.augmenters.utils import (
+    Texts,
+    calculate_aug_count,
+    detokenize,
+    get_model,
+    select_aug_indices,
+    tokenize,
+    tokenize_unidic,
+)
 
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -20,7 +28,7 @@ from transformers import pipeline, set_seed
 
 
 class SynonymAugmenter(Augmenter):
-    def __init__(self, aug_min: int, aug_max: int, aug_p: float, synonym_dic_path: str = None) -> None:
+    def __init__(self, aug_min: int, aug_max: int, aug_p: float, synonym_dic_path: Union[str, None] = None) -> None:
         super().__init__(
             name="SynonymAugmenter",
             action=Action.SUBSTITUTE,
@@ -49,7 +57,9 @@ class SynonymAugmenter(Augmenter):
         return random.choice(maybe_synonym) if maybe_synonym else word
 
     def substitute(self, data: Texts) -> str:
-        tokens = tokenize(data, with_pos=True)
+        if not isinstance(data, str):
+            raise TypeError("SynonymAugmenter expects one string at a time.")
+        tokens = cast(List[Dict[str, Any]], tokenize(data, with_pos=True))
         tokens_augmentable = []
         idx = 0
         for token in tokens:
@@ -60,9 +70,15 @@ class SynonymAugmenter(Augmenter):
             else:
                 token["aug_word_idx"] = None
         results = []
-        aug_word_cnt = self._generate_aug_cnt(len(tokens_augmentable), self.aug_min, self.aug_max, self.aug_p)
+        aug_word_cnt = calculate_aug_count(len(tokens_augmentable), self.aug_min, self.aug_max, self.aug_p)
         aug_word_idxes = set(
-            get_aug_idxes(self, tokens_augmentable, list(range(len(tokens_augmentable))), aug_word_cnt, Method.WORD)
+            select_aug_indices(
+                self,
+                tokens_augmentable,
+                list(range(len(tokens_augmentable))),
+                aug_word_cnt,
+                Method.WORD,
+            )
         )
         for row in tokens:
             if row["aug_word_idx"] not in aug_word_idxes:
@@ -118,9 +134,11 @@ class WordEmbsAugmenter(Augmenter):
         return random.choice(similar_words) if similar_words else word
 
     def substitute(self, data: Texts) -> str:
+        if not isinstance(data, str):
+            raise TypeError("WordEmbsAugmenter expects one string at a time.")
         _pos = {"NOUN", "SYM"}
         # lemmatization works if augmentable targets have VERB
-        tokens = tokenize(data, with_pos=True, lemmatize="VERB" in _pos)
+        tokens = cast(List[Dict[str, Any]], tokenize(data, with_pos=True, lemmatize="VERB" in _pos))
         tokens_augmentable = []
         idx = 0
         for token in tokens:
@@ -131,9 +149,15 @@ class WordEmbsAugmenter(Augmenter):
             else:
                 token["aug_word_idx"] = None
         results = []
-        aug_word_cnt = self._generate_aug_cnt(len(tokens_augmentable), self.aug_min, self.aug_max, self.aug_p)
+        aug_word_cnt = calculate_aug_count(len(tokens_augmentable), self.aug_min, self.aug_max, self.aug_p)
         aug_word_idxes = set(
-            get_aug_idxes(self, tokens_augmentable, list(range(len(tokens_augmentable))), aug_word_cnt, Method.WORD)
+            select_aug_indices(
+                self,
+                tokens_augmentable,
+                list(range(len(tokens_augmentable))),
+                aug_word_cnt,
+                Method.WORD,
+            )
         )
         for row in tokens:
             if row["aug_word_idx"] not in aug_word_idxes:
@@ -150,7 +174,7 @@ class FillMaskAugmenter(Augmenter):
         aug_max: int,
         aug_p: float,
         model: str = "cl-tohoku/bert-base-japanese-v2",
-        seed: int = None,
+        seed: Union[int, None] = None,
     ) -> None:
         super().__init__(
             name="FillMaskAugmenter",
@@ -171,6 +195,8 @@ class FillMaskAugmenter(Augmenter):
         https://huggingface.co/models?pipeline_tag=fill-mask&sort=downloads&search=japanese
         """
         self.model = pipeline(task="fill-mask", model=model, top_k=5)
+        if self.model.tokenizer is None:
+            raise ValueError(f'Fill-mask model "{model}" does not provide a tokenizer.')
         self.mask_token = self.model.tokenizer.mask_token
 
     @classmethod
@@ -183,16 +209,18 @@ class FillMaskAugmenter(Augmenter):
     def is_duplicate(cls, dataset: List[str], data: Texts) -> bool:
         return data in dataset
 
-    def apply_fill_mask(self, tokens: List[str]) -> str:
+    def apply_fill_mask(self, tokens: List[str]) -> List[str]:
         assert self.mask_token in tokens
         candidates = self.model(detokenize(tokens))
         return random.choice(candidates)["sequence"].split(" ")
 
     def substitute(self, data: Texts) -> str:
+        if not isinstance(data, str):
+            raise TypeError("FillMaskAugmenter expects one string at a time.")
         # Default model (cl-tohoku) expect uni-dic tokenizer
         tokens = tokenize_unidic(data)
-        aug_word_cnt = self._generate_aug_cnt(len(tokens), self.aug_min, self.aug_max, self.aug_p)
-        aug_word_idxes = set(get_aug_idxes(self, tokens, list(range(len(tokens))), aug_word_cnt, Method.WORD))
+        aug_word_cnt = calculate_aug_count(len(tokens), self.aug_min, self.aug_max, self.aug_p)
+        aug_word_idxes = set(select_aug_indices(self, tokens, list(range(len(tokens))), aug_word_cnt, Method.WORD))
         for idx in aug_word_idxes:
             try:
                 tokens[idx] = self.mask_token

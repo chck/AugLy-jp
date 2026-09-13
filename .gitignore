@@ -145,5 +145,5 @@ cython_debug/
 # PyCharm
 .idea/
 
-# For the environment w/o poetry, such as SaaS JupyterLab
+# Exported dependencies for environments such as SaaS JupyterLab
 requirements-dev.txt

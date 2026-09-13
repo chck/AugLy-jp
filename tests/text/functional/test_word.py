@@ -18,6 +18,10 @@ def test_replace_synonym_words(get_data):
     assert augmented == "あらゆる現実をすべて自身のほうへねじ曲げたのだ"
 
 
+def test_replace_synonym_words_preserves_empty_text():
+    assert txtaugs.replace_synonym_words("") == ""
+
+
 def test_replace_wordembs_words(get_data):
     augmented = txtaugs.replace_wordembs_words(get_data["text"], aug_p=0.8)
     assert augmented == "あらゆる現実をすべて関心のほうへねじ曲げたのだ"
