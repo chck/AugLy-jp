@@ -3,14 +3,15 @@ import os
 import shutil
 import tarfile
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Sequence, Union
 from urllib.request import urlretrieve
 
 import spacy
-from fugashi import Tagger
+from fugashi import Tagger  # ty: ignore[unresolved-import]
+from nlpaug.util import Method
 from spacy.tokens import Doc
 from tenacity import retry, retry_if_exception_message, retry_if_exception_type, stop_after_attempt
-from tqdm.auto import tqdm
+from tqdm.std import tqdm
 
 log = logging.getLogger(__name__)
 
@@ -41,12 +42,62 @@ POS = {
 }
 
 
+def calculate_aug_count(size: int, aug_min: int, aug_max: int, aug_p: float) -> int:
+    """Preserve nlpaug 1.1.3's floor-based augmentation count."""
+    count = int(aug_p * size)
+    if count < aug_min:
+        return aug_min
+    if count > aug_max:
+        return aug_max
+    return count
+
+
+def select_aug_indices(
+    augmenter: Any,
+    tokens: Sequence[Any],
+    filtered_indices: List[int],
+    aug_count: int,
+    mode: str,
+    min_char: Union[int, None] = None,
+) -> List[int]:
+    """Preserve the token selection contract used by AugLy 0.1.7."""
+    if mode not in Method.getall():
+        raise ValueError("mode must be a value defined by nlpaug.util.Method")
+
+    priority_indices = []
+    priority_words = getattr(augmenter, "priority_words", None)
+    if mode == Method.WORD and priority_words is not None:
+        priority_words_set = set(priority_words)
+        for index, token in enumerate(tokens):
+            if token in priority_words_set and (min_char is None or len(token) >= min_char):
+                priority_indices.append(index)
+
+    indices = [
+        index
+        for index in filtered_indices
+        if index not in priority_indices and (min_char is None or len(tokens[index]) >= min_char)
+    ]
+    if not priority_indices and not indices:
+        return []
+    if len(priority_indices) <= aug_count:
+        aug_indices = priority_indices
+        remaining_count = min(aug_count - len(priority_indices), len(indices))
+        aug_indices += augmenter.sample(indices, remaining_count)
+        return aug_indices
+    return augmenter.sample(priority_indices, aug_count)
+
+
+def normalize_augmented_texts(source: Texts, augmented: List[str], n: int) -> Texts:
+    """Keep the scalar return contract from nlpaug 1.1.3."""
+    if isinstance(source, str) and n == 1:
+        return augmented[0] if augmented else source
+    return augmented
+
+
 @retry(
     retry=(
-        (
-            retry_if_exception_type(AttributeError) & retry_if_exception_message("EOS is not connected to BOS")
-            | retry_if_exception_type(ValueError)
-        )
+        retry_if_exception_type(AttributeError) & retry_if_exception_message("EOS is not connected to BOS")
+        | retry_if_exception_type(ValueError)
     ),
     stop=stop_after_attempt(5),
 )
@@ -80,7 +131,7 @@ def replace_punctuation(text_en: str) -> str:
     return text_en
 
 
-def get_model(fname: str = None, origin: str = None) -> str:
+def get_model(fname: Union[str, None] = None, origin: Union[str, None] = None) -> str:
     """inspired: gensim.downloader.load() and tf.keras.utils.get_file
     TODO: support the file type except tar.gz
     """
@@ -109,7 +160,7 @@ def get_model(fname: str = None, origin: str = None) -> str:
     return untar_fpath
 
 
-def _extract_archive(file_path: str, path=".") -> bool:
+def _extract_archive(file_path: str, path: str = ".") -> bool:
     """TODO: support the file type except tar.gz"""
     open_fn = tarfile.open
     is_match_fn = tarfile.is_tarfile
@@ -132,7 +183,7 @@ def _extract_archive(file_path: str, path=".") -> bool:
 class TqdmUpTo(tqdm):
     """ref: https://github.com/tqdm/tqdm/blob/master/examples/tqdm_wget.py"""
 
-    def update_to(self, b: int = 1, bsize: int = 1, tsize: int = None) -> Union[bool, None]:
+    def update_to(self, b: int = 1, bsize: int = 1, tsize: Union[int, None] = None) -> Union[bool, None]:
         """
         b  : int, optional
             Number of blocks transferred so far [default: 1].

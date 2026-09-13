@@ -21,11 +21,11 @@ BackTranslationAugmenter|そして、ほかの人たちをそれぞれの道に�
 ## Prerequisites
 | Software                   | Install Command            |
 |----------------------------|----------------------------|
-| [Python 3.8.11][python]    | `pyenv install 3.8.11`     |
-| [Poetry 1.1.*][poetry]     | `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \| python`|
+| [Python 3.11][python] | `uv python install 3.11` |
+| [uv 0.12.13][uv] | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
 
-[python]: https://www.python.org/downloads/release/python-3811/
-[poetry]: https://python-poetry.org/
+[python]: https://www.python.org/downloads/release/python-31115/
+[uv]: https://docs.astral.sh/uv/getting-started/installation/
 
 ## Get Started
 ### Installation
@@ -36,22 +36,23 @@ pip install augly-jp
 Or clone this repository:
 ```bash
 git clone https://github.com/chck/AugLy-jp.git
-poetry install
+cd AugLy-jp
+uv sync --dev
 ```
 
 ### Test with reformat
 ```bash
-poetry run task test
+uv run task test
 ```
 
 ### Reformat
 ```bash
-poetry run task fmt
+uv run task fmt
 ```
 
 ### Lint
 ```bash
-poetry run task lint
+uv run task lint
 ```
 
 ## Inspired

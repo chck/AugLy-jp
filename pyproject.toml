@@ -1,68 +1,69 @@
-[tool.poetry]
-name = "augly_jp"
+[project]
+name = "augly-jp"
 version = "2021.9.30"
 description = "Data Augmentation for Japanese Text"
-authors = ["chck <shimekiri.today@gmail.com>"]
-repository = "https://github.com/chck/AugLy-jp"
+authors = [{ name = "chck", email = "shimekiri.today@gmail.com" }]
 readme = "README.md"
 license = "MIT"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "augly>=1.0.0,<2",
+    "chikkarpy>=0.1.1",
+    "dartsclone==0.9.0",
+    "fugashi[unidic-lite]>=1.5.2",
+    "gensim>=4.4.0",
+    "ginza>=5.2.1,<5.3",
+    "ja-ginza-electra>=5.2.0",
+    "nlpaug>=1.1.11,<1.2",
+    "numpy>=2.4.6",
+    "python-levenshtein>=0.27.5",
+    "python-magic-bin==0.4.14 ; sys_platform == 'win32' or (sys_platform == 'darwin' and platform_machine == 'x86_64')",
+    "python-magic-standalone==0.4.28 ; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sentencepiece>=0.2.2",
+    "setuptools>=80.10.2,<81",
+    "spacy>=3.8.16,<4",
+    "tenacity>=9.1.4",
+    "torch>=2.14.0",
+    "tqdm>=4.70.1",
+    "transformers>=4.25.1,<4.26",
+]
+
+[project.urls]
+Repository = "https://github.com/chck/AugLy-jp"
+
+[dependency-groups]
+dev = [
+    "absl-py>=2.5.0",
+    "ipywidgets>=8.1.9",
+    "jupyterlab>=4.6.3",
+    "pandas>=3.0.5",
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "pytest-cov>=7.1.0",
+    "pytest-mock>=3.15.1",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.16.7",
+    "scikit-learn>=1.9.1",
+    "taskipy>=1.14.1",
+    "tensorboard>=2.21.0",
+    "ty>=0.0.80",
+]
 
 [tool.taskipy.tasks]
-lint = { cmd = "pysen run lint", help = "execute linter" }
-fmt = { cmd = "pysen run format", help = "format code" }
-#test = { cmd = "task lint && task fmt && pytest -s", help = "run all test" }
+lint = { cmd = "ruff check augly_jp && ruff format --check augly_jp && ty check augly_jp", help = "execute linter" }
+fmt = { cmd = "ruff check --fix augly_jp && ruff format augly_jp", help = "format code" }
 test = { cmd = "task fmt && pytest -s", help = "run all test" }
 
-[tool.poetry.dependencies]
-python = "^3.7.1"
-numpy = ">=1.19.2,<1.20.0"
-augly = "^0.1.7"
-chikkarpy = "^0.1.0"
-gensim = "^4.0.1"
-tqdm = "^4.62.2"
-python-Levenshtein = "^0.12.2"
-ginza = "^5.0.1"
-ja-ginza-electra = "^5.0.0"
-transformers = "<4.10.0"
-fugashi = {extras = ["unidic-lite"], version = "^1.1.1"}
-python-magic-bin = { version = "^0.4.14", markers = "sys_platform == 'win32' or sys_platform == 'darwin'" }
-tenacity = "^8.0.1"
-dartsclone = "^0.9.0"
-torch = "^1.9.0"
-sentencepiece = "^0.1.96"
+[tool.ruff]
+line-length = 120
+target-version = "py311"
 
-[tool.poetry.dev-dependencies]
-pysen = {extras = ["lint"], version = "^0.9.1"}
-absl-py = ">=0.9,<0.13"
-pytest = "^6.2.4"
-pytest-xdist = "^2.3.0"
-taskipy = "^1.8.1"
-jupyterlab = "^3.1.7"
-ipywidgets = "^7.6.4"
-pytest-cov = "^2.12.1"
-pytest-mock = "^3.6.1"
-pytest-asyncio = "^0.15.1"
-scikit-learn = "^0.24.2"
-pandas = "^1.3.2"
-tensorboard = "^2.6.0"
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
 
-[tool.pysen]
-version = "0.9"
-
-[tool.pysen.lint]
-enable_black = true
-enable_flake8 = true
-enable_isort = true
-enable_mypy = true
-line_length = 120
-py_version = "py38"
-mypy_preset = "strict"
-[[tool.pysen.lint.mypy_targets]]
-  paths = ["augly_jp"]
-
-[tool.pysen.lint.source]
-  includes = ["augly_jp"]
-  exclude_globs = ["**/*_test.py"]
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
 
 [tool.pytest.ini_options]
 addopts = """
@@ -73,5 +74,15 @@ addopts = """
 -n auto"""
 
 [build-system]
-requires = ["poetry-core>=1.1.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.12.13,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "augly_jp"
+module-root = ""
+
+[tool.uv]
+build-constraint-dependencies = ["setuptools<81"]
+
+[tool.uv.extra-build-dependencies]
+chikkarpy = ["setuptools<81"]
