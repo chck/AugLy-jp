@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -31,3 +35,7 @@ jobs:
         run: uv run --locked pytest --cov=augly_jp --cov=tests --cov-report=term-missing:skip-covered --cov-report=xml tests
       - name: Upload coverage
         uses: codecov/codecov-action@e53489f4d376d79066609109e7a95a29eb3740b1 # v7.0.0
+        with:
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          use_oidc: true
