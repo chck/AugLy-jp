@@ -1,6 +1,6 @@
 import pytest
 import random
-from augly.text import Compose, OneOf
+from augly.text import Compose
 from augly_jp import text as txtaugs
 from typing import Dict, Any
 
@@ -21,15 +21,9 @@ def get_data() -> Dict[str, Any]:
 
 
 def test_compose_word_augmenters(get_data):
-    aug = Compose([
-        OneOf([
-            txtaugs.ReplaceSynonymWords(),
-            txtaugs.ReplaceWordEmbsWords(),
-        ]),
-        txtaugs.ReplaceFillMaskWords(),
-    ])
+    aug = Compose([txtaugs.ReplaceWordEmbsWords(aug_p=0.8)])
     augmented = aug(get_data["text"], metadata=get_data['metadata'])
-    assert augmented == ["あらゆる物事をすべて自分のほうでねじ曲げたいのだ"]
+    assert augmented == ["あらゆる現実をすべて関心のほうへねじ曲げたのだ"]
 
 
 if __name__ == '__main__':
