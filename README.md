@@ -1,77 +1,42 @@
 # AugLy-jp
-> Data Augmentation for **Japanese Text** on AugLy
 
-[![PyPI Version][pypi-image]][pypi-url]
-[![Python Version][python-image]][python-image]
-[![Python Test][test-image]][test-url]
-[![Test Coverage][coverage-image]][coverage-url]
-[![Code Quality][quality-image]][quality-url]
-[![Python Style Guide][black-image]][black-url]
+> Data augmentation for Japanese text, built on [AugLy](https://github.com/facebookresearch/AugLy).
 
-## Augmenter
-`base_text = "あらゆる現実をすべて自分のほうへねじ曲げたのだ"`
+[![PyPI version](https://img.shields.io/pypi/v/augly-jp.svg)](https://pypi.org/project/augly-jp/)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-31115/)
+[![Test](https://github.com/chck/AugLy-jp/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/chck/AugLy-jp/actions/workflows/test.yml)
+[![Coverage](https://codecov.io/gh/chck/AugLy-jp/graph/badge.svg)](https://app.codecov.io/gh/chck/AugLy-jp)
+[![Ruff](https://img.shields.io/badge/lint%20%26%20format-Ruff-261230.svg)](https://docs.astral.sh/ruff/)
+[![ty](https://img.shields.io/badge/type%20checker-ty-261230.svg)](https://docs.astral.sh/ty/)
+[![License](https://img.shields.io/github/license/chck/AugLy-jp.svg)](LICENSE)
 
-Augmenter | Augmented | Description
-:---:|:---:|:---:
-SynonymAugmenter|あらゆる現実をすべて自身のほうへねじ曲げたのだ|Substitute similar word according to [Sudachi synonym](https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md)
-WordEmbsAugmenter|あらゆる現実をすべて関心のほうへねじ曲げたのだ|Leverage word2vec, GloVe or fasttext embeddings to apply augmentation
-FillMaskAugmenter|つまり現実を、未来な未来まで変えたいんだ|Using masked language model to generate text
-BackTranslationAugmenter|そして、ほかの人たちをそれぞれの道に安置しておられた|Leverage two translation models for augmentation
+## Installation
 
-## Prerequisites
-| Software                   | Install Command            |
-|----------------------------|----------------------------|
-| [Python 3.11][python] | `uv python install 3.11` |
-| [uv 0.12.13][uv] | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+The current version requires Python 3.11. The latest PyPI release predates the
+uv migration, so install the current version from the `main` branch until the
+next release is published:
 
-[python]: https://www.python.org/downloads/release/python-31115/
-[uv]: https://docs.astral.sh/uv/getting-started/installation/
-
-## Get Started
-### Installation
 ```bash
-pip install augly-jp
+uv add "augly-jp @ git+https://github.com/chck/AugLy-jp.git@main"
 ```
 
-Or clone this repository:
-```bash
-git clone https://github.com/chck/AugLy-jp.git
-cd AugLy-jp
-uv sync --dev
+## Usage
+
+```python
+from augly_jp import text as text_augmentations
+
+text = "あらゆる現実をすべて自分のほうへねじ曲げたのだ"
+augmented = text_augmentations.replace_synonym_words(text)
+print(augmented)
 ```
 
-### Test with reformat
-```bash
-uv run task test
-```
+| Function | Example output | Description |
+| --- | --- | --- |
+| `replace_synonym_words` | あらゆる現実をすべて自身のほうへねじ曲げたのだ | Substitutes words using the [Sudachi synonym dictionary](https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md) |
+| `replace_wordembs_words` | あらゆる現実をすべて関心のほうへねじ曲げたのだ | Substitutes words using word embeddings |
+| `replace_fillmask_words` | つまり現実を、未来な未来まで変えたいんだ | Generates substitutions with a masked language model |
+| `replace_backtranslation_sentences` | そして、ほかの人たちをそれぞれの道に安置しておられた | Augments text through back translation |
 
-### Reformat
-```bash
-uv run task fmt
-```
+Development instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-### Lint
-```bash
-uv run task lint
-```
-
-## Inspired
-- https://github.com/facebookresearch/AugLy
-- https://github.com/makcedward/nlpaug
-- https://github.com/QData/TextAttack
-
-## License
-This software includes the work that is distributed in the Apache License 2.0 [[1]][apache1-url].
-
-[pypi-image]: https://badge.fury.io/py/augly-jp.svg
-[pypi-url]: https://badge.fury.io/py/augly-jp
-[python-image]: https://img.shields.io/pypi/pyversions/augly-jp.svg
-[test-image]: https://github.com/chck/AugLy-jp/workflows/Test/badge.svg
-[test-url]: https://github.com/chck/Augly-jp/actions?query=workflow%3ATest
-[coverage-image]: https://img.shields.io/codecov/c/github/chck/AugLy-jp?color=%2334D058
-[coverage-url]: https://codecov.io/gh/chck/AugLy-jp
-[quality-image]: https://img.shields.io/lgtm/grade/python/g/chck/AugLy-jp.svg?logo=lgtm&logoWidth=18
-[quality-url]: https://lgtm.com/projects/g/chck/AugLy-jp/context:python
-[black-image]: https://img.shields.io/badge/code%20style-black-black
-[black-url]: https://github.com/psf/black
-[apache1-url]: https://github.com/cl-tohoku/bert-japanese/blob/v2.0/LICENSE
+Licensed under the [MIT License](LICENSE). Runtime models and datasets retain their own license terms.
